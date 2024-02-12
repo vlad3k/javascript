@@ -38,13 +38,15 @@ const form = {
 };
 
 function generate(target, separator = '.') {
-  for (let prop in target) {
-    const arr = target[prop].split(separator);
+  const result = { ...target };
+
+  for (let prop in result) {
+    const arr = result[prop].split(separator);
     if (arr.length <= 1) continue;
-    target[prop] = createNestedObjectFromPath(arr);
+    result[prop] = createNestedObjectFromPath(arr);
   }
 
-  return target;
+  return result;
 }
 
 function createNestedObjectFromPath(arr) {
@@ -52,7 +54,9 @@ function createNestedObjectFromPath(arr) {
   let current = result;
 
   arr.forEach((item, index) => {
-    if (index === arr.length - 1) return current[item] = '';
+    if (index === arr.length - 1) {
+      return current[item] = '';
+    }
 
     current[item] = {};
     current = current[item];
